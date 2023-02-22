@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./calculator.js"></script>
     <title>ULTRABALATON</title>
 </head>
 <body>
@@ -13,8 +14,8 @@
         <nav>
             <ul>
                 <li>
-                    <a href="/index.html" id="toHomePage">
-                        <img src="/images/logo_150.webp" alt="Root to the landing page">
+                    <a href="./index.html" id="toHomePage">
+                        <img src="./images/logo_150.webp" alt="Root to the landing page">
                     </a>
                 </li>
                 <li>
@@ -27,7 +28,24 @@
         </nav>
     </header>
     <div id="calculator">
-        
+        <table id="teamMemeberTable">
+            <th>Line number</th> <!--auto-->
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Speed</th> <!--auto-->
+            <th>Total distance</th>
+        </table>
+
+        <!--From API-->
+        <table id="stageAssignmentTable">
+            <th>Line number</th>
+            <th>Distance</th>
+            <th>Starting point</th>
+            <th>Arriving point</th>
+            <th>Name</th>
+            <th>Runner</th> <!--+-->
+            <th>Time</th> <!--+-->
+        </table>
     </div>
 </body>
 </html>

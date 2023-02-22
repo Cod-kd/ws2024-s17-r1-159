@@ -13,6 +13,7 @@
 
 body, html{
     height: 100%;
+    background-color: var(--main);
 }
 
 /* 1920px */
@@ -53,13 +54,11 @@ nav li a:hover{
 
 nav li a#toHomePage{
     display: flex;
-    align-items: center;
     background-color: var(--color);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
 nav li a#toHomePage img{
-    object-fit: contain;
 }
 
 main{
@@ -71,8 +70,7 @@ article, aside{
     width: 60%;
     padding: 20px;
     text-align: justify;
-    margin: auto;
-    margin-top: 30px;
+    margin: 15px auto;
     border: 0px solid transparent;
     border-radius: 20px;
     background-color: rgba(0, 0, 255, 0.25);
@@ -96,6 +94,7 @@ button{
     font-weight: bold;
     font-size: 1.5rem;
     color: var(--color);
+    border: 0px solid transparent;
     background-color: var(--bgc);
     border-radius: 5px;
 }
