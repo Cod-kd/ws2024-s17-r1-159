@@ -200,12 +200,12 @@ table{
     margin: 20px auto;
 }
 
-table tr#teamMemeberTr{
+table tr.teamMemeberTr{
     display: grid;
     grid-template-columns: 100px 250px 250px 200px 200px;
 }
 
-table tr#stageAssignmentTr{
+table tr.stageAssignmentTr{
     display: grid;
     grid-template-columns: 100px 100px 200px 200px 150px 150px 100px;
 }
@@ -221,7 +221,8 @@ tr:nth-child(even){
 }
 
 tr:hover{
-    background-color: var(--footer);
+    background-color: #397d8bbe;
+    color: var(--color);
 }
 
 th{
