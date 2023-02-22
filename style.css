@@ -1,46 +1,47 @@
-:root{
+:root {
     --bgc: #03045E;
     --color: white;
     --main: #00B4D8;
     --footer: #90E0EF;
 }
 
-*{
+* {
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Inter','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body, html{
+body,
+html {
     height: 100%;
     background-color: var(--main);
 }
 
 /* 1920px */
-body#index{
+body#index {
     display: grid;
     grid-template-rows: repeat(8, 1fr);
     grid-template-columns: repeat(4, 1fr);
 }
 
-header{
+header {
     grid-row: 1/2;
     grid-column: 1/5;
     background-color: var(--bgc);
 }
 
-nav ul{
+nav ul {
     list-style: none;
     padding: 0;
     display: flex;
     align-items: center;
 }
 
-nav li{
+nav li {
     font-size: 4vw;
 }
 
-nav li a{
+nav li a {
     color: var(--color);
     text-align: center;
     padding: 14px 16px;
@@ -48,25 +49,25 @@ nav li a{
     text-decoration: none;
 }
 
-nav li a:hover{
+nav li a:hover {
     text-shadow: 1px 2px 10px rgba(255, 255, 255, 0.5);
 }
 
-nav li a#toHomePage{
+nav li a#toHomePage {
     display: flex;
     background-color: var(--color);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
-nav li a#toHomePage img{
-}
 
-main{
+main {
     grid-row: 2/8;
     grid-column: 1/4;
     background-color: var(--main);
 }
-article, aside{
+
+article,
+aside {
     width: 60%;
     padding: 20px;
     text-align: justify;
@@ -79,16 +80,17 @@ article, aside{
     box-shadow: 2px 2px 5px var(--bgc);
 }
 
-.sidebar{
+.sidebar {
     grid-row: 2/8;
     grid-column: 4/5;
     background-color: var(--main);
 }
-aside{
+
+aside {
     width: 80%;
 }
 
-button{
+button {
     padding: 10px;
     margin-top: 20px;
     font-weight: bold;
@@ -99,13 +101,13 @@ button{
     border-radius: 5px;
 }
 
-footer{
+footer {
     grid-row: 8/9;
     grid-column: 1/5;
     background-color: var(--footer);
 }
 
-#social{
+#social {
     width: 30%;
     height: 100%;
     margin: auto;
@@ -113,60 +115,132 @@ footer{
     grid-template-columns: repeat(4, 1fr);
     gap: 5%;
 }
-#social img{
+
+#social img {
     padding: 15%;
 }
 
 /* 768px */
 @media only screen and (max-width: 769px) {
-    body, html{
+
+    body,
+    html {
         height: min(100%);
     }
-    main{
+
+    main {
         grid-column: 1/5;
         grid-row: 2/6;
     }
-    .sidebar{
+
+    .sidebar {
         grid-column: 1/5;
         grid-row: 6/8;
     }
-    #social{
+
+    #social {
         width: 80%;
     }
-    nav ul{
+
+    nav ul {
         justify-content: center;
     }
-    nav li{
+
+    nav li {
         font-size: 8vw;
     }
-    nav li a#toHomePage img{
+
+    nav li a#toHomePage img {
         width: 80%;
     }
-    article{
+
+    article {
         width: 80%;
     }
 }
 
 /* 360px */
 @media only screen and (max-width: 361px) {
-    main{
+    main {
         grid-row: 2/8;
     }
-    .sidebar{
+
+    .sidebar {
         display: none;
     }
-    nav li{
+
+    nav li {
         font-size: 10vw;
     }
-    nav li a{
+
+    nav li a {
         margin: 5px 0px 0px 0px;
     }
-    nav li a#toHomePage img{
+
+    nav li a#toHomePage img {
         margin-top: 0px;
         width: 62px;
     }
-    article{
+
+    article {
         width: 95%;
     }
 }
 
+/* Calculator style */
+#calculator{
+    width: 80%;
+    margin: 0% 10%;
+    padding: 1%;
+}
+
+table{
+    border-collapse: collapse;
+    width: 1000px;
+    margin: 20px auto;
+}
+
+table tr#teamMemeberTr{
+    display: grid;
+    grid-template-columns: 100px 250px 250px 200px 200px;
+}
+
+table tr#stageAssignmentTr{
+    display: grid;
+    grid-template-columns: 100px 100px 200px 200px 150px 150px 100px;
+}
+
+th,
+td{
+    border: 1px solid var(--footer);
+    padding: 8px;
+}
+
+tr:nth-child(even){
+    background-color: var(--footer);
+}
+
+tr:hover{
+    background-color: var(--footer);
+}
+
+th{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--bgc);
+    color: var(--color);
+}
+
+input{
+    background-color: transparent;
+    border: 0px solid transparent;
+    width: 100%;
+    padding: 5px;
+}
+
+input:focus { 
+    outline: none !important;
+    border-color: #719ECE;
+    box-shadow: 0 0 10px #719ECE;
+ }

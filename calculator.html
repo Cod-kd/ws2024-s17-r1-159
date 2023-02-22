@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="./icons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
@@ -29,22 +30,41 @@
     </header>
     <div id="calculator">
         <table id="teamMemeberTable">
-            <th>Line number</th> <!--auto-->
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Speed</th> <!--auto-->
-            <th>Total distance</th>
+            <tr id="teamMemeberTr">
+                <th>Line number</th> <!--auto-->
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Speed</th> <!--auto-->
+                <th>Total distance</th>
+            </tr>
+            <tr id="teamMemeberTr">
+                <td class="lineNum">###</td>
+                <td><input type="text" placeholder="XYZ"></td>
+                <td><input type="text" placeholder="XYZ"></td>
+                <td class="speed">---</td>
+                <td><input type="text" placeholder="XYZ"></td>
+            </tr>
+            <tr  id="teamMemeberTr">
+                <td class="lineNum">###</td>
+                <td><input type="text" placeholder="XYZ"></td>
+                <td><input type="text" placeholder="XYZ"></td>
+                <td class="speed">---</td>
+                <td><input type="text" placeholder="XYZ"></td>
+            </tr>
+            
         </table>
 
         <!--From API-->
         <table id="stageAssignmentTable">
-            <th>Line number</th>
-            <th>Distance</th>
-            <th>Starting point</th>
-            <th>Arriving point</th>
-            <th>Name</th>
-            <th>Runner</th> <!--+-->
-            <th>Time</th> <!--+-->
+            <tr id="stageAssignmentTr">
+                <th>Line number</th>
+                <th>Distance</th>
+                <th>Starting point</th>
+                <th>Arriving point</th>
+                <th>Name</th>
+                <th>Runner</th> <!--+-->
+                <th>Time</th> <!--+-->
+            </tr>  
         </table>
     </div>
 </body>
