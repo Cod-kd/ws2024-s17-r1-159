@@ -2,23 +2,22 @@ window.addEventListener("DOMContentLoaded", () => {
     setLocalStorage();
     fillTeamMemberTableWithDatas(""); // load the local datas
     loadStageData(""); // get and load everyting from the URL
-    //setLocalRunner(0, "fName", "Jani");
-    console.log(localRunnersDataToList());
-    listToLocalRunnersData([{ fName: "runnerDatas[0]", lName: "runnerDatas[1]", speed: "runnerDatas[2]" }, { fName: "runnerDatas[0]", lName: "runnerDatas[1]", speed: "runnerDatas[2]" }, { fName: "runnerDatas[0]", lName: "runnerDatas[1]", speed: "runnerDatas[2]" }]);
+    setLocalRunner(1, "lName", "Jani");
 });
 
 function fillTeamMemberTableWithDatas(dataList) {
     const table = document.getElementById("teamMemeberTable");
+    const runnersData = localRunnersDataToList();
 
     // fill the table with data
-    for (let c = 1; c <= 10; c++) {
+    for (let c = 0; c < 10; c++) {
         let row = table.insertRow();
         row.innerHTML = `
-                        <td>${c}</td>
-                        <td><input type="text" placeholder="First name.." value=""></td>
-                        <td><input type="text" placeholder="Last name.." value=""></td>
-                        <td><input type="text" placeholder="MM:SS / km" value=""></td>
-                        <td>${0} km</td>
+                        <td>${c+1}</td>
+                        <td><input type="text" placeholder="First name.." value="${runnersData[c].fName}"></td>
+                        <td><input type="text" placeholder="Last name.." value="${runnersData[c].lName}"></td>
+                        <td><input type="text" placeholder="MM:SS / km" value="${runnersData[c].speed == "" ? "" : toSpeed(runnersData[c].speed)}"></td>
+                        <td>${0 /*will change*/} km</td>
                         `;
         row.classList.add("teamMemeberTr");
 
@@ -82,8 +81,8 @@ function setLocalRunner(index, key, value) {
 
 /* FUNCTION TO SET EMPTY THE localStorage.runnersDataAsString IF IT IS NOT EXIST */
 function setLocalStorage() {
-    if (localStorage.runnersDataAsString) {
-        localStorage.runnersDataAsString = "--;--;--;--;--;--;--;--;--;--";
+    if (localStorage.runnersDataAsString) { // az ellenorzes miatt kiszedtem a tagadast!!!
+        localStorage.runnersDataAsString = "Jakab-András-1020;--;--;--;--;--;--;--;--;--";
         console.log(localStorage.runnersDataAsString);
     }
 }
@@ -95,6 +94,7 @@ function localRunnersDataToList() {
         let runnerDatas = item.split('-');
         runnersData.push({ fName: runnerDatas[0], lName: runnerDatas[1], speed: runnerDatas[2] });
     }
+    console.log(runnersData)
     return runnersData;
 }
 
@@ -105,7 +105,11 @@ function listToLocalRunnersData(runnersData) {
             + runnerDatas.lName + '-' + runnerDatas.speed + ';';
     }
     localStorage.runnersDataAsString = runnersDataAsString.substring(0, runnersDataAsString.length - 1);
-    console.log(localStorage.runnersDataAsString); ///ellen
+    console.log(localStorage.runnersDataAsString + " eltarolva");
+}
+
+function toSpeed(fourDigits){
+    return fourDigits.slice(0, 2) + ":" + fourDigits.slice(2, 4) + " / km"
 }
 
 function getRouteData(url) {
