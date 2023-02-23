@@ -39,7 +39,7 @@ function fillStageTableWithDatas(dataList) {
     /* ideiglenes */
     let runnerList = [[1, "Balu"], [2, "Zsigmond"], [3, "Aladár"]];
     /*let runners = localRunnersDataToList();
-            for(let i = 0; i < runners.length; i++){
+            for(let i = 1; i <= runners.length; i++){
                 runnerList.push([i + 1, runners[i].lName + " " + runners[i].fName]);
             }*/
     runnerList.sort((a, b) => (a[1] > b[1]) ? 1 : (a[1] < b[1]) ? -1 : 0);
@@ -66,9 +66,11 @@ function fillStageTableWithDatas(dataList) {
             for(let r of runnerList){
                 if(input.value == r[1]){
                     let distances = localStorage.getItem("distances").split(",");
-                    distances[r[0]] = (parseFloat(distances[r[0]]) + parseFloat(datas.distance)).toString();
+                    console.log(distances)
+                    distances[r[0]-1] = (parseFloat(distances[r[0]-1]) + parseFloat(datas.distance)).toString();
                     console.log(distances);
-                    document.getElementById(`tr${i}_distance`).innerHTML = distances[r[0]-1];
+                    console.log(r)
+                    document.getElementById(`tr${r[0]-1}_distance`).innerHTML = distances[r[0]-1] + " km";
                     localStorage.setItem("distances", distances);
                 }
             }
