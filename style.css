@@ -213,6 +213,7 @@ table tr.stageAssignmentTr{
 th,
 td{
     border: 1px solid var(--footer);
+    overflow-wrap: break-word;
     padding: 8px;
 }
 

@@ -14,13 +14,22 @@ function fillTeamMemberTableWithDatas(dataList) {
         let row = table.insertRow();
         row.innerHTML = `
                         <td>${c+1}</td>
-                        <td><input type="text" placeholder="First name.." value="${runnersData[c].fName}"></td>
-                        <td><input type="text" placeholder="Last name.." value="${runnersData[c].lName}"></td>
-                        <td><input type="text" placeholder="MM:SS / km" value="${runnersData[c].speed == "" ? "" : toSpeed(runnersData[c].speed)}"></td>
-                        <td>${0 /*will change*/} km</td>
+                        <td><input type="text" id="tr${c}_fName" placeholder="First name.." value="${runnersData[c].fName}"></td>
+                        <td><input type="text" id="tr${c}_lName" placeholder="Last name.." value="${runnersData[c].lName}"></td>
+                        <td><input type="text" id="tr${c}_speed" placeholder="MM:SS / km" value="${runnersData[c].speed == "" ? "" : toSpeed(runnersData[c].speed)}"></td>
+                        <td id="tr${c}_speed">${0 /*will change*/} km</td>
                         `;
         row.classList.add("teamMemeberTr");
 
+        document.getElementById(`tr${c}_fName`).addEventListener("input", ()=>{
+            setLocalRunner(c, "fName", document.getElementById(`tr${c}_fName`).value);
+        });
+        document.getElementById(`tr${c}_lName`).addEventListener("input", ()=>{
+            setLocalRunner(c, "lName", document.getElementById(`tr${c}_lName`).value);
+        });
+        document.getElementById(`tr${c}_speed`).addEventListener("input", ()=>{
+            setLocalRunner(c, "speed", document.getElementById(`tr${c}_speed`).value);
+        });
     }
 }
 function fillStageTableWithDatas(dataList) {
