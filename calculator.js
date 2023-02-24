@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", () => {
     loadStageData(""); // get and load everyting from the URL
 
     setLocalRunner(1, "lName", "Jani");
-    //setLocalRunner(1, "fNam", "Fürge");
+    setLocalRunner(1, "fName", "Fürge");
 });
 
 function fillTeamMemberTableWithDatas() {
@@ -113,14 +113,14 @@ function setLocalRunner(index, key, value) {
         default:
             console.error(`Key called "${key}" do not found.`);
     }
-    localStorage.runnersDataAsString = listToLocalRunnersData(listToUpdate);
+    localStorage.setItem("runnersDataAsString", listToLocalRunnersData(listToUpdate));
 }
 
-/* FUNCTION TO SET EMPTY THE localStorage.runnersDataAsString IF IT IS NOT EXIST */
+/* FUNCTION TO SETTING UP THE localStorage IF IT IS NOT EXIST */
 function setLocalStorage() {
-    if (localStorage.runnersDataAsString) { // az ellenorzes miatt kiszedtem a tagadast!!!
-        localStorage.runnersDataAsString = "Jakab-András-1020;--;--;--;--;--;--;--;--;--";
-        console.log(localStorage.runnersDataAsString);
+    if (localStorage.getItem("runnersDataAsString")) { // az ellenorzes miatt kiszedtem a tagadast!!!
+        localStorage.setItem("runnersDataAsString", "Jakab-András-1020;--;--;--;--;--;--;--;--;--");
+        console.log(localStorage.getItem("runnersDataAsString"));
     }
     if(!localStorage.getItem("distances")){
         localStorage.setItem("distances", "0,0,0,0,0,0,0,0,0,0");
@@ -129,7 +129,7 @@ function setLocalStorage() {
 
 function localRunnersDataToList() {
     let runnersData = [];
-    for (let item of localStorage.runnersDataAsString.split(";")) { ///// UNDEFINED
+    for (let item of localStorage.getItem("runnersDataAsString").split(";")) { ///// UNDEFINED
         console.log(item)
         let runnerDatas = item.split('-');
         runnersData.push({ fName: runnerDatas[0], lName: runnerDatas[1], speed: runnerDatas[2] });
@@ -144,8 +144,8 @@ function listToLocalRunnersData(runnersData) {
         runnersDataAsString += runnerDatas.fName + '-'
             + runnerDatas.lName + '-' + runnerDatas.speed + ';';
     }
-    localStorage.runnersDataAsString = runnersDataAsString.substring(0, runnersDataAsString.length - 1);
-    console.log(localStorage.runnersDataAsString + " stored");
+    localStorage.setItem("runnersDataAsString", runnersDataAsString.substring(0, runnersDataAsString.length - 1));
+    console.log(localStorage.getItem("runnersDataAsString") + " stored");
 }
 
 function toSpeed(fourDigits){
