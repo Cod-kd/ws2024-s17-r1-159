@@ -1,14 +1,17 @@
+/* RUNS WHEN THE PAGE LOADED */
 window.addEventListener("DOMContentLoaded", () => {
     setLocalStorage();
     fillTeamMemberTableWithDatas(); // load the local datas
     loadStageData(""); // get and load everyting from the URL
 });
+/* ------------------ */
 
+
+/* FUNCTIONS TO CREATE DOCUMENT OBJECTS */
 function fillTeamMemberTableWithDatas() {
     const table = document.getElementById("teamMemeberTable");
     const runnersData = localRunnersDataToList();
 
-    // fill the table with data
     for (let c = 0; c < 10; c++) {
         let row = table.insertRow();
         row.innerHTML = `
@@ -31,8 +34,17 @@ function fillTeamMemberTableWithDatas() {
         });
     }
 }
+
 function fillStageTableWithDatas(dataList) {
+    if(!localStorage.getItem("runnerIndexStageValues")){
+        let listOfIndexes = [];
+        for(let i = 0; i < dataList.length; i++){
+            listOfIndexes.push(" ");
+        }
+        localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
+    }
     const table = document.getElementById("stageAssignmentTable");
+    let runnerIndexStageValues = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
     let runnerList = [];
     let runners = localRunnersDataToList();
             for(let i = 0; i < runners.length; i++){
@@ -52,9 +64,9 @@ function fillStageTableWithDatas(dataList) {
                         <td>${datas.startingLocation}</td>
                         <td>${datas.arrivalLocation}</td>
                         <td>${datas.name == "" ? "---" : datas.name}</td>
-                        <td>${chooseLocalRunner(runnerList)}</td>
+                        <td>${chooseLocalRunner(runnerList, runnerIndexStageValues[i] == " "? "" : getLocalRunner(runnerIndexStageValues[i], "fullName"))}</td>
                         <td id="tr${i}_time">MM:SS</td>
-                        `;
+                        `; //load runner and time
         row.classList.add("stageAssignmentTr");
 
         let input = document.getElementsByClassName("chooseRunnerInput")[i];
@@ -63,12 +75,9 @@ function fillStageTableWithDatas(dataList) {
             // update if the data is valid //
             for(let r of runnerList){
                 if(input.value == r[1]){
-                    let distances = localStorage.getItem("distances").split(",");
-                    distances[r[0]-1] = (parseFloat(distances[r[0]-1]) + parseFloat(datas.distance)).toString();
-                    document.getElementById(`tr${r[0]-1}_distance`).innerHTML = distances[r[0]-1] + " km";
-                    localStorage.setItem("distances", distances);
-                    document.getElementById(`tr${i}_time`).innerHTML = getTime(r[0]-1, parseFloat(datas.distance));
-                    // save time
+                    updateRunnerIndexStageValue(i, r[0]-1);
+                    updateDistance(r[0]-1, true);
+                    document.getElementById(`tr${i}_time`).innerHTML = asTime(r[0]-1, parseFloat(datas.distance));
                 }
             }
             
@@ -77,50 +86,62 @@ function fillStageTableWithDatas(dataList) {
     }
 }
 
-function getTime(runnerIndex, distance){
-    let speed = localRunnersDataToList()[runnerIndex].speed;
-    let inSec = distance * parseFloat(speed.substring(0, 2)) * 60 + distance * parseFloat(speed.substring(2, 4));
-    return (Math.floor(inSec / 60)).toString() + ':' + (inSec % 60).toString()
-}
-
-function loadStageData(stageID) {
-    getRouteData("https://ub2023-backend.onrender.com/api/v1/stages/" + stageID).then(response => {
-        console.log(response)
-        fillStageTableWithDatas(response);
-    }).catch(err => {
-        console.log(err)
-    })
-}
-
-function chooseLocalRunner(localRunners) {
-    dataListHTML = `<input class="chooseRunnerInput" list="runners" placeholder="No runner...">
+function chooseLocalRunner(localRunners, value) {
+    dataListHTML = `<input class="chooseRunnerInput" value="${value}" list="runners" placeholder="No runner...">
                     <datalist id="runners">`;
     for (let runner of localRunners) {
         dataListHTML += `<option value="${runner[1]}">`;
     }
     return dataListHTML + `</datalist>`;
 }
+/* ------------------ */
 
-function setLocalRunner(index, key, value) {
-    let listToUpdate = localRunnersDataToList();
+
+/* FUNCTIONS TO UPDATE */
+function updateDistance(index, add){
+    let distances = localStorage.getItem("distances").split(",");
+    if(add){
+        distances[index] = (parseFloat(distances[index]) + parseFloat(datas.distance)).toString();
+    } else {
+        distances[index] = (parseFloat(distances[index]) - parseFloat(datas.distance)).toString();
+    }
+    document.getElementById(`tr${index}_distance`).innerHTML = distances[index] + " km";
+    localStorage.setItem("distances", distances);
+}
+
+function updateRunnerIndexStageValue(value, runnerIndex){
+    let listOfIndexes = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
+    if(listOfIndexes[runnerIndex] != " "){
+        updateDistance(runnerIndex, false);
+    }
+    listOfIndexes[runnerIndex] = value;
+    localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
+}
+/* ------------------ */
+
+
+/* GETTERS */
+function getLocalRunner(index, key){
+    let listOfRunners = localRunnersDataToList();
     switch (key) {
+        case "fullName":
+            return listOfRunners[index].lName + " " + listOfRunners[index].fName;
         case "fName":
-            listToUpdate[index].fName = value;
-            break;
+            return listOfRunners[index].fName;
         case "lName":
-            listToUpdate[index].lName = value;
-            break;
+            return listOfRunners[index].lName;
         case "speed":
-            listToUpdate[index].speed = value;
-            break;
+            return listOfRunners[index].speed;
         default:
             console.error(`Key called "${key}" do not found.`);
     }
-    localStorage.setItem("runnersDataAsString", listToLocalRunnersData(listToUpdate));
 }
+/* ------------------ */
 
-/* FUNCTION TO SETTING UP THE localStorage IF IT IS NOT EXIST */
+
+/* SETTERS */
 function setLocalStorage() {
+    // If it is not exists
     if (!localStorage.getItem("runnersDataAsString")) {
         localStorage.setItem("runnersDataAsString", `
         {
@@ -145,6 +166,33 @@ function setLocalStorage() {
     }
 }
 
+function setLocalRunner(index, key, value) {
+    let listToUpdate = localRunnersDataToList();
+    switch (key) {
+        case "fName":
+            listToUpdate[index].fName = value;
+            break;
+        case "lName":
+            listToUpdate[index].lName = value;
+            break;
+        case "speed":
+            listToUpdate[index].speed = value;
+            break;
+        default:
+            console.error(`Key called "${key}" do not found.`);
+    }
+    localStorage.setItem("runnersDataAsString", listToLocalRunnersData(listToUpdate));
+}
+/* ------------------ */
+
+
+/* FUNCTIONS TO CONVERT */
+function asTime(runnerIndex, distance){
+    let speed = localRunnersDataToList()[runnerIndex].speed;
+    let inSec = distance * parseFloat(speed.substring(0, 2)) * 60 + distance * parseFloat(speed.substring(2, 4));
+    return (Math.floor(inSec / 60)).toString() + ':' + (inSec % 60).toString()
+}
+
 function localRunnersDataToList() {
     return JSON.parse(localStorage.getItem("runnersDataAsString")).runners;
 }
@@ -159,9 +207,12 @@ function listToLocalRunnersData(runnersData) {
 }
 
 function toSpeed(fourDigits){
-    return fourDigits.slice(0, 2) + ":" + fourDigits.slice(2, 4) + " / km"
+    return fourDigits.slice(0, 2) + ":" + fourDigits.slice(2, 4) + " / km";
 }
+/* ------------------ */
 
+
+/* FUNCTION WHAT CONNECTS TO THE API */
 function getRouteData(url) {
     return new Promise((resolve, reject) => {
         fetch(url).then(res => {
@@ -177,3 +228,13 @@ function getRouteData(url) {
         })
     });
 }
+
+function loadStageData(stageID) {
+    getRouteData("https://ub2023-backend.onrender.com/api/v1/stages/" + stageID).then(response => {
+        console.log(response)
+        fillStageTableWithDatas(response);
+    }).catch(err => {
+        console.log(err)
+    })
+}
+/* ------------------ */
