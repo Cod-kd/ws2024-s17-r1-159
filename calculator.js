@@ -38,9 +38,9 @@ function fillTeamMemberTableWithDatas() {
 function fillStageTableWithDatas(dataList) {
     setRunnerIndexStageValues(dataList.length);
     const table = document.getElementById("stageAssignmentTable");
-    let runnerIndexStageValues = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
+    const runnerIndexStageValues = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
     let runnerList = [];
-    let runners = localRunnersDataToList();
+    const runners = localRunnersDataToList();
     for(let i = 0; i < runners.length; i++){
         if(runners[i].lName != "" && runners[i].fName != "" && runners[i].speed != ""){
             runnerList.push([i + 1, runners[i].lName + " " + runners[i].fName]);
