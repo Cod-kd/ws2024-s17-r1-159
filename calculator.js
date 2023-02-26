@@ -1,6 +1,6 @@
 /* RUNS WHEN THE PAGE LOADED */
 window.addEventListener("DOMContentLoaded", () => {
-    setLocalStorage();
+    setLocalStorage(); // if it is not exists yet
     fillTeamMemberTableWithDatas(); // load the local datas
     loadStageData(""); // get and load everyting from the URL
 });
@@ -141,7 +141,6 @@ function getLocalRunner(index, key){
 
 /* SETTERS */
 function setLocalStorage() {
-    // If it is not exists
     if (!localStorage.getItem("runnersDataAsString")) {
         localStorage.setItem("runnersDataAsString", `
         {
