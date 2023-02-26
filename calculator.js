@@ -2,9 +2,6 @@ window.addEventListener("DOMContentLoaded", () => {
     setLocalStorage();
     fillTeamMemberTableWithDatas(); // load the local datas
     loadStageData(""); // get and load everyting from the URL
-
-    setLocalRunner(1, "lName", "Jani");
-    setLocalRunner(1, "fName", "Fürge");
 });
 
 function fillTeamMemberTableWithDatas() {
@@ -36,12 +33,13 @@ function fillTeamMemberTableWithDatas() {
 }
 function fillStageTableWithDatas(dataList) {
     const table = document.getElementById("stageAssignmentTable");
-    /* ideiglenes */
-    let runnerList = [[1, "Balu"], [2, "Zsigmond"], [3, "Aladár"]];
-    /*let runners = localRunnersDataToList();
-            for(let i = 1; i <= runners.length; i++){
-                runnerList.push([i + 1, runners[i].lName + " " + runners[i].fName]);
-            }*/
+    let runnerList = [];
+    let runners = localRunnersDataToList();
+            for(let i = 0; i < runners.length; i++){
+                if(runners[i].lName != "" && runners[i].fName != "" && runners[i].speed != ""){
+                    runnerList.push([i + 1, runners[i].lName + " " + runners[i].fName]);
+                }
+            }
     runnerList.sort((a, b) => (a[1] > b[1]) ? 1 : (a[1] < b[1]) ? -1 : 0);
     console.log(runnerList)
     // fill the table with data
@@ -55,7 +53,7 @@ function fillStageTableWithDatas(dataList) {
                         <td>${datas.arrivalLocation}</td>
                         <td>${datas.name == "" ? "---" : datas.name}</td>
                         <td>${chooseLocalRunner(runnerList)}</td>
-                        <td>MM:SS</td>
+                        <td id="tr${i}_time">MM:SS</td>
                         `;
         row.classList.add("stageAssignmentTr");
 
@@ -66,18 +64,23 @@ function fillStageTableWithDatas(dataList) {
             for(let r of runnerList){
                 if(input.value == r[1]){
                     let distances = localStorage.getItem("distances").split(",");
-                    console.log(distances)
                     distances[r[0]-1] = (parseFloat(distances[r[0]-1]) + parseFloat(datas.distance)).toString();
-                    console.log(distances);
-                    console.log(r)
                     document.getElementById(`tr${r[0]-1}_distance`).innerHTML = distances[r[0]-1] + " km";
                     localStorage.setItem("distances", distances);
+                    document.getElementById(`tr${i}_time`).innerHTML = getTime(r[0]-1, parseFloat(datas.distance));
+                    // save time
                 }
             }
             
         });
         i++;
     }
+}
+
+function getTime(runnerIndex, distance){
+    let speed = localRunnersDataToList()[runnerIndex].speed;
+    let inSec = distance * parseFloat(speed.substring(0, 2)) * 60 + distance * parseFloat(speed.substring(2, 4));
+    return (Math.floor(inSec / 60)).toString() + ':' + (inSec % 60).toString()
 }
 
 function loadStageData(stageID) {
@@ -118,9 +121,24 @@ function setLocalRunner(index, key, value) {
 
 /* FUNCTION TO SETTING UP THE localStorage IF IT IS NOT EXIST */
 function setLocalStorage() {
-    if (localStorage.getItem("runnersDataAsString")) { // az ellenorzes miatt kiszedtem a tagadast!!!
-        localStorage.setItem("runnersDataAsString", "Jakab-András-1020;--;--;--;--;--;--;--;--;--");
-        console.log(localStorage.getItem("runnersDataAsString"));
+    if (!localStorage.getItem("runnersDataAsString")) {
+        localStorage.setItem("runnersDataAsString", `
+        {
+        "runners":
+            [
+                {"fName": "Jakab", "lName": "András", "speed": "1020"},
+                {"fName": "", "lName": "", "speed": ""},
+                {"fName": "", "lName": "", "speed": ""},
+                {"fName": "", "lName": "", "speed": ""},
+                {"fName": "", "lName": "", "speed": ""},
+                {"fName": "", "lName": "", "speed": ""},
+                {"fName": "", "lName": "", "speed": ""},
+                {"fName": "", "lName": "", "speed": ""},
+                {"fName": "", "lName": "", "speed": ""},
+                {"fName": "", "lName": "", "speed": ""}
+            ]
+        }
+        `);
     }
     if(!localStorage.getItem("distances")){
         localStorage.setItem("distances", "0,0,0,0,0,0,0,0,0,0");
@@ -128,23 +146,15 @@ function setLocalStorage() {
 }
 
 function localRunnersDataToList() {
-    let runnersData = [];
-    for (let item of localStorage.getItem("runnersDataAsString").split(";")) { ///// UNDEFINED
-        console.log(item)
-        let runnerDatas = item.split('-');
-        runnersData.push({ fName: runnerDatas[0], lName: runnerDatas[1], speed: runnerDatas[2] });
-    }
-    console.log(runnersData)
-    return runnersData;
+    return JSON.parse(localStorage.getItem("runnersDataAsString")).runners;
 }
 
 function listToLocalRunnersData(runnersData) {
-    let runnersDataAsString = "";
-    for (let runnerDatas of runnersData) {
-        runnersDataAsString += runnerDatas.fName + '-'
-            + runnerDatas.lName + '-' + runnerDatas.speed + ';';
-    }
-    localStorage.setItem("runnersDataAsString", runnersDataAsString.substring(0, runnersDataAsString.length - 1));
+    localStorage.setItem("runnersDataAsString", `
+    {
+        "runners":
+            ${JSON.stringify(runnersData)}
+    }`);
     console.log(localStorage.getItem("runnersDataAsString") + " stored");
 }
 
