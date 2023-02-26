@@ -54,13 +54,13 @@ function fillStageTableWithDatas(dataList) {
         let row = table.insertRow();
         row.innerHTML = `
                         <td>${datas.id}</td>
-                        <td id="tr${j}_GET_distance">${datas.distance} km</td>
+                        <td>${datas.distance} km</td>
                         <td>${datas.startingLocation}</td>
                         <td>${datas.arrivalLocation}</td>
                         <td>${datas.name == "" ? "---" : datas.name}</td>
-                        <td>${chooseLocalRunner(runnerList, runnerIndexStageValues[j] === " "? "" : getLocalRunner(runnerIndexStageValues[j], "fullName"))}</td>
-                        <td id="tr${j}_time">MM:SS</td>
-                        `; // need to load time
+                        <td>${chooseLocalRunner(runnerList, runnerIndexStageValues[j] === " " ? "" : getLocalRunner(runnerIndexStageValues[j], "fullName"))}</td>
+                        <td id="tr${j}_time">${runnerIndexStageValues[j] === " " ? "MM:SS" : asTime(runnerIndexStageValues[j], datas.distance)}</td>
+                        `;
         row.classList.add("stageAssignmentTr");
 
         let input = document.getElementsByClassName("chooseRunnerInput")[j];
@@ -193,7 +193,7 @@ function setLocalRunner(index, key, value) {
 function asTime(runnerIndex, distance){
     let speed = localRunnersDataToList()[runnerIndex].speed;
     let inSec = distance * parseFloat(speed.substring(0, 2)) * 60 + distance * parseFloat(speed.substring(2, 4));
-    return (Math.floor(inSec / 60)).toString() + ':' + (inSec % 60).toString()
+    return (Math.floor(inSec / 60)).toString() + ':' + (inSec % 60 < 10 ? '0' + (inSec % 60).toString() : (inSec % 60).toString());
 }
 
 function localRunnersDataToList() {
