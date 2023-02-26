@@ -64,7 +64,7 @@ function fillStageTableWithDatas(dataList) {
         row.classList.add("stageAssignmentTr");
 
         let input = document.getElementsByClassName("chooseRunnerInput")[i];
-        input.addEventListener("input", ()=>{
+        input.addEventListener("input", ()=>{ // i = 54 (előző ciklus vége az eventlisteneren belül)
             // update if the data is valid //
             for(let r of runnerList){
                 if(input.value == r[1]){
@@ -201,11 +201,7 @@ function localRunnersDataToList() {
 }
 
 function listToLocalRunnersData(runnersData) {
-    localStorage.setItem("runnersDataAsString", `
-    {
-        "runners":
-            ${JSON.stringify(runnersData)}
-    }`);
+    localStorage.setItem("runnersDataAsString", JSON.stringify({runners:runnersData})); //masodjara UNDEFINED
     console.log(localStorage.getItem("runnersDataAsString") + " stored");
 }
 
