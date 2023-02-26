@@ -49,33 +49,34 @@ function fillStageTableWithDatas(dataList) {
     runnerList.sort((a, b) => (a[1] > b[1]) ? 1 : (a[1] < b[1]) ? -1 : 0);
     console.log(runnerList)
     // fill the table with data
-    let i = 0;
+    let j = 0;
     for (let datas of dataList) {
         let row = table.insertRow();
         row.innerHTML = `
                         <td>${datas.id}</td>
-                        <td id="tr${i}_GET_distance">${datas.distance} km</td>
+                        <td id="tr${j}_GET_distance">${datas.distance} km</td>
                         <td>${datas.startingLocation}</td>
                         <td>${datas.arrivalLocation}</td>
                         <td>${datas.name == "" ? "---" : datas.name}</td>
-                        <td>${chooseLocalRunner(runnerList, runnerIndexStageValues[i] == " "? "" : getLocalRunner(runnerIndexStageValues[i], "fullName"))}</td>
-                        <td id="tr${i}_time">MM:SS</td>
+                        <td>${chooseLocalRunner(runnerList, runnerIndexStageValues[j] === " "? "" : getLocalRunner(runnerIndexStageValues[j], "fullName"))}</td>
+                        <td id="tr${j}_time">MM:SS</td>
                         `; // need to load time
         row.classList.add("stageAssignmentTr");
 
-        let input = document.getElementsByClassName("chooseRunnerInput")[i];
-        input.addEventListener("input", ()=>{ // i = 54 (előző ciklus vége az eventlisteneren belül)
+        let input = document.getElementsByClassName("chooseRunnerInput")[j];
+        input.addEventListener("input", ()=>{
             // update if the data is valid //
             for(let r of runnerList){
                 if(input.value == r[1]){
-                    updateRunnerIndexStageValue(i, datas.distance, r[0]-1);
+                    updateRunnerIndexStageValue(j, datas.distance, r[0]-1);
                     updateDistance(r[0]-1, datas.distance, true);
-                    document.getElementById(`tr${i}_time`).innerHTML = asTime(r[0]-1, parseFloat(datas.distance));
+                    console.log("j is: " + j); // i = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
+                    document.getElementById(`tr${j}_time`).innerHTML = asTime(r[0]-1, parseFloat(datas.distance));
                 }
             }
             
         });
-        i++;
+        j++;
     }
 }
 
@@ -115,7 +116,6 @@ function updateRunnerIndexStageValue(value, distance, runnerIndex){
 
 /* GETTERS */
 function getLocalRunner(index, key){
-    console.log(index)
     let listOfRunners = localRunnersDataToList();
     switch (key) {
         case "fullName":
@@ -163,7 +163,7 @@ function setRunnerIndexStageValues(length){
     if(!localStorage.getItem("runnerIndexStageValues")){
         let listOfIndexes = [];
         for(let i = 0; i < length; i++){
-            listOfIndexes.push(" ");
+            listOfIndexes.push(0);
         }
         localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
     }
