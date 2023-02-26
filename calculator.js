@@ -36,22 +36,16 @@ function fillTeamMemberTableWithDatas() {
 }
 
 function fillStageTableWithDatas(dataList) {
-    if(!localStorage.getItem("runnerIndexStageValues")){
-        let listOfIndexes = [];
-        for(let i = 0; i < dataList.length; i++){
-            listOfIndexes.push(" ");
-        }
-        localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
-    }
+    setRunnerIndexStageValues(dataList.length);
     const table = document.getElementById("stageAssignmentTable");
     let runnerIndexStageValues = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
     let runnerList = [];
     let runners = localRunnersDataToList();
-            for(let i = 0; i < runners.length; i++){
-                if(runners[i].lName != "" && runners[i].fName != "" && runners[i].speed != ""){
-                    runnerList.push([i + 1, runners[i].lName + " " + runners[i].fName]);
-                }
-            }
+    for(let i = 0; i < runners.length; i++){
+        if(runners[i].lName != "" && runners[i].fName != "" && runners[i].speed != ""){
+            runnerList.push([i + 1, runners[i].lName + " " + runners[i].fName]);
+        }
+    }
     runnerList.sort((a, b) => (a[1] > b[1]) ? 1 : (a[1] < b[1]) ? -1 : 0);
     console.log(runnerList)
     // fill the table with data
@@ -60,7 +54,7 @@ function fillStageTableWithDatas(dataList) {
         let row = table.insertRow();
         row.innerHTML = `
                         <td>${datas.id}</td>
-                        <td>${datas.distance} km</td>
+                        <td id="tr${i}_GET_distance">${datas.distance} km</td>
                         <td>${datas.startingLocation}</td>
                         <td>${datas.arrivalLocation}</td>
                         <td>${datas.name == "" ? "---" : datas.name}</td>
@@ -74,8 +68,8 @@ function fillStageTableWithDatas(dataList) {
             // update if the data is valid //
             for(let r of runnerList){
                 if(input.value == r[1]){
-                    updateRunnerIndexStageValue(i, r[0]-1);
-                    updateDistance(r[0]-1, true);
+                    updateRunnerIndexStageValue(i, datas.distance, r[0]-1);
+                    updateDistance(r[0]-1, datas.distance, true);
                     document.getElementById(`tr${i}_time`).innerHTML = asTime(r[0]-1, parseFloat(datas.distance));
                 }
             }
@@ -97,22 +91,21 @@ function chooseLocalRunner(localRunners, value) {
 
 
 /* FUNCTIONS TO UPDATE */
-function updateDistance(index, add){
+function updateDistance(index, distance, add){
     let distances = localStorage.getItem("distances").split(",");
-    let distanceValueNow = document.getElementById(`tr${index}_distance`).innerHTML;
     if(add){
-        distances[index] = (parseFloat(distances[index]) + parseFloat(distanceValueNow)).toString();
+        distances[index] = (parseFloat(distances[index]) + parseFloat(distance)).toString();
     } else {
-        distances[index] = (parseFloat(distances[index]) - parseFloat(distanceValueNow)).toString();
+        distances[index] = (parseFloat(distances[index]) - parseFloat(distance)).toString();
     }
     document.getElementById(`tr${index}_distance`).innerHTML = distances[index] + " km";
     localStorage.setItem("distances", distances);
 }
 
-function updateRunnerIndexStageValue(value, runnerIndex){
+function updateRunnerIndexStageValue(value, distance, runnerIndex){
     let listOfIndexes = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
     if(listOfIndexes[runnerIndex] != " "){
-        updateDistance(runnerIndex, false);
+        updateDistance(runnerIndex, distance, false);
     }
     listOfIndexes[runnerIndex] = value;
     localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
@@ -122,6 +115,7 @@ function updateRunnerIndexStageValue(value, runnerIndex){
 
 /* GETTERS */
 function getLocalRunner(index, key){
+    console.log(index)
     let listOfRunners = localRunnersDataToList();
     switch (key) {
         case "fullName":
@@ -162,6 +156,16 @@ function setLocalStorage() {
     }
     if(!localStorage.getItem("distances")){
         localStorage.setItem("distances", "0,0,0,0,0,0,0,0,0,0");
+    }
+}
+
+function setRunnerIndexStageValues(length){
+    if(!localStorage.getItem("runnerIndexStageValues")){
+        let listOfIndexes = [];
+        for(let i = 0; i < length; i++){
+            listOfIndexes.push(" ");
+        }
+        localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
     }
 }
 
