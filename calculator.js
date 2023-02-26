@@ -1,3 +1,7 @@
+/*
+HIBA: 208, 77
+*/
+
 /* RUNS WHEN THE PAGE LOADED */
 window.addEventListener("DOMContentLoaded", () => {
     setLocalStorage(); // if it is not exists yet
@@ -70,7 +74,7 @@ function fillStageTableWithDatas(dataList) {
                 if(input.value == r[1]){
                     updateRunnerIndexStageValue(j, datas.distance, r[0]-1);
                     updateDistance(r[0]-1, datas.distance, true);
-                    console.log("j is: " + j); // i = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
+                    console.log("j is: " + j); // j = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
                     document.getElementById(`tr${j}_time`).innerHTML = asTime(r[0]-1, parseFloat(datas.distance));
                 }
             }
@@ -201,7 +205,7 @@ function localRunnersDataToList() {
 }
 
 function listToLocalRunnersData(runnersData) {
-    localStorage.setItem("runnersDataAsString", JSON.stringify({runners:runnersData})); //masodjara UNDEFINED
+    localStorage.setItem("runnersDataAsString", JSON.stringify({runners:runnersData})); //másodjára UNDEFINED
     console.log(localStorage.getItem("runnersDataAsString") + " stored");
 }
 
