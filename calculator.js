@@ -167,7 +167,7 @@ function setRunnerIndexStageValues(length){
     if(!localStorage.getItem("runnerIndexStageValues")){
         let listOfIndexes = [];
         for(let i = 0; i < length; i++){
-            listOfIndexes.push(0);
+            listOfIndexes.push(" ");
         }
         localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
     }
@@ -205,7 +205,7 @@ function localRunnersDataToList() {
 }
 
 function listToLocalRunnersData(runnersData) {
-    localStorage.setItem("runnersDataAsString", JSON.stringify({runners:runnersData})); //másodjára UNDEFINED
+    localStorage.setItem("runnersDataAsString", JSON.stringify({runners:runnersData}));
     console.log(localStorage.getItem("runnersDataAsString") + " stored");
     return localStorage.getItem("runnersDataAsString");
 }
