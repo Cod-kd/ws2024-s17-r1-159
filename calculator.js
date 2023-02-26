@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
 function fillTeamMemberTableWithDatas() {
     const table = document.getElementById("teamMemeberTable");
     const runnersData = localRunnersDataToList();
-
+    // add rows
     for (let c = 0; c < 10; c++) {
         let row = table.insertRow();
         row.innerHTML = `
@@ -66,12 +66,11 @@ function fillStageTableWithDatas(dataList) {
                         <td>${datas.name == "" ? "---" : datas.name}</td>
                         <td>${chooseLocalRunner(runnerList, runnerIndexStageValues[i] == " "? "" : getLocalRunner(runnerIndexStageValues[i], "fullName"))}</td>
                         <td id="tr${i}_time">MM:SS</td>
-                        `; //load runner and time
+                        `; // need to load time
         row.classList.add("stageAssignmentTr");
 
         let input = document.getElementsByClassName("chooseRunnerInput")[i];
         input.addEventListener("input", ()=>{
-
             // update if the data is valid //
             for(let r of runnerList){
                 if(input.value == r[1]){
