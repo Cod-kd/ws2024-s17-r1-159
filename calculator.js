@@ -207,6 +207,7 @@ function localRunnersDataToList() {
 function listToLocalRunnersData(runnersData) {
     localStorage.setItem("runnersDataAsString", JSON.stringify({runners:runnersData})); //másodjára UNDEFINED
     console.log(localStorage.getItem("runnersDataAsString") + " stored");
+    return localStorage.getItem("runnersDataAsString");
 }
 
 function toSpeed(fourDigits){
