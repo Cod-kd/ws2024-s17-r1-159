@@ -99,10 +99,11 @@ function chooseLocalRunner(localRunners, value) {
 /* FUNCTIONS TO UPDATE */
 function updateDistance(index, add){
     let distances = localStorage.getItem("distances").split(",");
+    let distanceValueNow = document.getElementById(`tr${index}_distance`).innerHTML;
     if(add){
-        distances[index] = (parseFloat(distances[index]) + parseFloat(datas.distance)).toString();
+        distances[index] = (parseFloat(distances[index]) + parseFloat(distanceValueNow)).toString();
     } else {
-        distances[index] = (parseFloat(distances[index]) - parseFloat(datas.distance)).toString();
+        distances[index] = (parseFloat(distances[index]) - parseFloat(distanceValueNow)).toString();
     }
     document.getElementById(`tr${index}_distance`).innerHTML = distances[index] + " km";
     localStorage.setItem("distances", distances);
