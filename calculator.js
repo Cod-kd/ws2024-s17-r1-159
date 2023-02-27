@@ -35,9 +35,11 @@ function fillTeamMemberTableWithDatas() {
         });
         let speed = document.getElementById(`tr${c}_speed`);
         speed.addEventListener("input", () => {
-            if (speed.value.length == 4) {
-                setLocalRunner(c, "speed", speed.value);
-                speed.value = toSpeed(speed.value);
+            if (speed.value.length == 4 && /^-?\d+$/.test(speed.value)) { // length == 4 and the value is a digit
+                if (parseInt(speed.value[2]) < 6) {
+                    setLocalRunner(c, "speed", speed.value);
+                    speed.value = toSpeed(speed.value);
+                }
             }
         });
     }
@@ -76,10 +78,10 @@ function fillStageTableWithDatas(dataList) {
             // update if the data is valid //
             for (let r of runnerList) {
                 if (input.value == r[1]) {
-                    updateRunnerIndexStageValue(j, datas.distance, r[0] - 1);
+                    updateRunnerIndexStageValue(0, datas.distance, r[0] - 1);
                     updateDistance(r[0] - 1, datas.distance, true);
                     console.log("j is: " + j); // j = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
-                    document.getElementById(`tr${j}_time`).innerHTML = asTime(r[0] - 1, parseFloat(datas.distance));
+                    document.getElementById(`tr${0}_time`).innerHTML = asTime(r[0] - 1, parseFloat(datas.distance));
                 }
             }
 
