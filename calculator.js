@@ -1,5 +1,5 @@
 /*
-HIBA: 77
+There is a bug witch can be tarce back to line 78-87, 77, 62. If you have a solution please feel free to send me an e-mail to: muranyi.daniel0@gmail.com
 */
 
 /* RUNS WHEN THE PAGE LOADED */
@@ -57,9 +57,9 @@ function fillStageTableWithDatas(dataList) {
         }
     }
     runnerList.sort((a, b) => (a[1] > b[1]) ? 1 : (a[1] < b[1]) ? -1 : 0);
-    console.log(runnerList)
+    console.log(runnerList);
     // fill the table with data
-    let j = 0;
+    let j = 0; // It works local, but cannot get it in the eventlistener
     for (let datas of dataList) {
         let row = table.insertRow();
         row.innerHTML = `
@@ -78,13 +78,12 @@ function fillStageTableWithDatas(dataList) {
             // update if the data is valid //
             for (let r of runnerList) {
                 if (input.value == r[1]) {
-                    updateRunnerIndexStageValue(0, datas.distance, r[0] - 1);
+                    console.error("Variable called \"j\" is: " + j + " in calculator.js line 81"); // j = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
+                    updateRunnerIndexStageValue(0, datas.distance, r[0] - 1); // value parameter is need to be variable j
                     updateDistance(r[0] - 1, datas.distance, true);
-                    console.log("j is: " + j); // j = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
-                    document.getElementById(`tr${0}_time`).innerHTML = asTime(r[0] - 1, parseFloat(datas.distance));
+                    document.getElementById(`tr${0}_time`).innerHTML = asTime(r[0] - 1, parseFloat(datas.distance)); // tr${0}_time need to replace with tr${j}_time
                 }
             }
-
         });
         j++;
     }
@@ -227,24 +226,24 @@ function getRouteData(url) {
     return new Promise((resolve, reject) => {
         fetch(url).then(res => {
             res.json().then(json => {
-                resolve(json)
+                resolve(json);
             }).catch(() => {
-                reject("Can't convert to JSON!")
-            })
+                reject("Can't convert to JSON!");
+            });
 
         }).catch(err => {
-            console.error(err)
-            reject("The datas do not avaiable now!")
-        })
+            console.error(err);
+            reject("The datas do not avaiable now!");
+        });
     });
 }
 
 function loadStageData(stageID) {
     getRouteData("https://ub2023-backend.onrender.com/api/v1/stages/" + stageID).then(response => {
-        console.log(response)
+        console.log(response);
         fillStageTableWithDatas(response);
     }).catch(err => {
-        console.log(err)
-    })
+        console.log(err);
+    });
 }
 /* ------------------ */
