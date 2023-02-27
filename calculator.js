@@ -1,5 +1,5 @@
 /*
-There is a bug witch can be tarce back to line 78-87, 77, 62. If you have a solution please feel free to send me an e-mail to: muranyi.daniel0@gmail.com
+There is a bug witch can be tarce back to line 83-92, 72, 67. If you have a solution please feel free to send me an e-mail to: muranyi.daniel0@gmail.com
 */
 
 /* RUNS WHEN THE PAGE LOADED */
@@ -83,7 +83,7 @@ function fillStageTableWithDatas(dataList) {
             // update if the data is valid //
             for (let r of runnerList) {
                 if (input.value == r[1]) {
-                    console.error("Variable called \"j\" is: " + j + " in calculator.js line 81"); // j = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
+                    console.error("Variable called \"j\" is: " + j + " in calculator.js line 86"); // j = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
                     updateRunnerIndexStageValue(0, datas.distance, r[0] - 1); // value parameter is need to be variable j
                     updateDistance(r[0] - 1, datas.distance, true);
                     document.getElementById(`tr${0}_time`).innerHTML = asTime(r[0] - 1, parseFloat(datas.distance)); // tr${0}_time need to replace with tr${j}_time
