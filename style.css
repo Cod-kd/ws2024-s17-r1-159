@@ -120,24 +120,26 @@ footer {
     padding: 15%;
 }
 
-#promoImgArticle{
+#promoImgArticle {
     max-height: 54%;
 }
 
 /* 768px */
 @media only screen and (max-width: 769px) {
+
     /* Only Chrome */
     @media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
         main {
             grid-column: 1/5;
             grid-row: 2/4;
         }
-    
+
         .sidebar {
             grid-column: 1/5;
             grid-row: 4/8;
         }
     }
+
     body,
     html {
         height: min(100%);
@@ -173,7 +175,7 @@ footer {
         width: 80%;
     }
 
-    #promoImgArticle{
+    #promoImgArticle {
         display: none;
     }
 }
@@ -207,45 +209,45 @@ footer {
 }
 
 /* Calculator style */
-#calculator{
+#calculator {
     width: 80%;
     margin: 0% 10%;
     padding: 1%;
 }
 
-table{
+table {
     border-collapse: collapse;
     width: 1000px;
     margin: 20px auto;
 }
 
-table tr.teamMemeberTr{
+table tr.teamMemeberTr {
     display: grid;
     grid-template-columns: 100px 250px 250px 200px 200px;
 }
 
-table tr.stageAssignmentTr{
+table tr.stageAssignmentTr {
     display: grid;
     grid-template-columns: 100px 100px 200px 200px 150px 150px 100px;
 }
 
 th,
-td{
+td {
     border: 1px solid var(--footer);
     overflow-wrap: break-word;
     padding: 8px;
 }
 
-tr:nth-child(even){
+tr:nth-child(even) {
     background-color: var(--footer);
 }
 
-tr:hover{
+tr:hover {
     background-color: #397d8bbe;
     color: var(--color);
 }
 
-th{
+th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -253,14 +255,14 @@ th{
     color: var(--color);
 }
 
-input{
+input {
     background-color: transparent;
     border: 0px solid transparent;
     width: 100%;
     padding: 5px;
 }
 
-input:focus{ 
+input:focus {
     outline: none !important;
     border-color: #719ECE;
     box-shadow: 0 0 10px #719ECE;
