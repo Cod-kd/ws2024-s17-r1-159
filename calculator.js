@@ -7,6 +7,11 @@ window.addEventListener("DOMContentLoaded", () => {
     setLocalStorage(); // if it is not exists yet
     fillTeamMemberTableWithDatas(); // load the local datas
     loadStageData(""); // get and load everyting from the URL
+
+    // add round function to Number is prototype
+    Number.prototype.round = function(places) {
+        return +(Math.round(this + "e+" + places)  + "e-" + places);
+      }
 });
 /* ------------------ */
 
@@ -104,9 +109,9 @@ function chooseLocalRunner(localRunners, value) {
 function updateDistance(index, distance, add) {
     let distances = localStorage.getItem("distances").split(",");
     if (add) {
-        distances[index] = (parseFloat(distances[index]) + parseFloat(distance)).toString();
+        distances[index] = (parseFloat(distances[index]) + parseFloat(distance)).round(1).toString();
     } else {
-        distances[index] = (parseFloat(distances[index]) - parseFloat(distance)).toString();
+        distances[index] = (parseFloat(distances[index]) - parseFloat(distance)).round(1).toString();
     }
     document.getElementById(`tr${index}_distance`).innerHTML = distances[index] + " km";
     localStorage.setItem("distances", distances);
