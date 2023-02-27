@@ -19,7 +19,7 @@ function fillTeamMemberTableWithDatas() {
     for (let c = 0; c < 10; c++) {
         let row = table.insertRow();
         row.innerHTML = `
-                        <td>${c+1}</td>
+                        <td>${c + 1}</td>
                         <td><input type="text" id="tr${c}_fName" placeholder="First name.." value="${runnersData[c].fName}"></td>
                         <td><input type="text" id="tr${c}_lName" placeholder="Last name.." value="${runnersData[c].lName}"></td>
                         <td><input type="text" id="tr${c}_speed" placeholder="MM:SS / km" value="${runnersData[c].speed == "" ? "" : toSpeed(runnersData[c].speed)}"></td>
@@ -27,14 +27,18 @@ function fillTeamMemberTableWithDatas() {
                         `;
         row.classList.add("teamMemeberTr");
 
-        document.getElementById(`tr${c}_fName`).addEventListener("input", ()=>{
+        document.getElementById(`tr${c}_fName`).addEventListener("input", () => {
             setLocalRunner(c, "fName", document.getElementById(`tr${c}_fName`).value);
         });
-        document.getElementById(`tr${c}_lName`).addEventListener("input", ()=>{
+        document.getElementById(`tr${c}_lName`).addEventListener("input", () => {
             setLocalRunner(c, "lName", document.getElementById(`tr${c}_lName`).value);
         });
-        document.getElementById(`tr${c}_speed`).addEventListener("input", ()=>{
-            setLocalRunner(c, "speed", document.getElementById(`tr${c}_speed`).value);
+        let speed = document.getElementById(`tr${c}_speed`);
+        speed.addEventListener("input", () => {
+            if (speed.value.length == 4) {
+                setLocalRunner(c, "speed", speed.value);
+                speed.value = toSpeed(speed.value);
+            }
         });
     }
 }
@@ -45,8 +49,8 @@ function fillStageTableWithDatas(dataList) {
     const runnerIndexStageValues = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
     let runnerList = [];
     const runners = localRunnersDataToList();
-    for(let i = 0; i < runners.length; i++){
-        if(runners[i].lName != "" && runners[i].fName != "" && runners[i].speed != ""){
+    for (let i = 0; i < runners.length; i++) {
+        if (runners[i].lName != "" && runners[i].fName != "" && runners[i].speed != "") {
             runnerList.push([i + 1, runners[i].lName + " " + runners[i].fName]);
         }
     }
@@ -68,17 +72,17 @@ function fillStageTableWithDatas(dataList) {
         row.classList.add("stageAssignmentTr");
 
         let input = document.getElementsByClassName("chooseRunnerInput")[j];
-        input.addEventListener("input", ()=>{
+        input.addEventListener("input", () => {
             // update if the data is valid //
-            for(let r of runnerList){
-                if(input.value == r[1]){
-                    updateRunnerIndexStageValue(j, datas.distance, r[0]-1);
-                    updateDistance(r[0]-1, datas.distance, true);
+            for (let r of runnerList) {
+                if (input.value == r[1]) {
+                    updateRunnerIndexStageValue(j, datas.distance, r[0] - 1);
+                    updateDistance(r[0] - 1, datas.distance, true);
                     console.log("j is: " + j); // j = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
-                    document.getElementById(`tr${j}_time`).innerHTML = asTime(r[0]-1, parseFloat(datas.distance));
+                    document.getElementById(`tr${j}_time`).innerHTML = asTime(r[0] - 1, parseFloat(datas.distance));
                 }
             }
-            
+
         });
         j++;
     }
@@ -96,9 +100,9 @@ function chooseLocalRunner(localRunners, value) {
 
 
 /* FUNCTIONS TO UPDATE */
-function updateDistance(index, distance, add){
+function updateDistance(index, distance, add) {
     let distances = localStorage.getItem("distances").split(",");
-    if(add){
+    if (add) {
         distances[index] = (parseFloat(distances[index]) + parseFloat(distance)).toString();
     } else {
         distances[index] = (parseFloat(distances[index]) - parseFloat(distance)).toString();
@@ -107,19 +111,19 @@ function updateDistance(index, distance, add){
     localStorage.setItem("distances", distances);
 }
 
-function updateRunnerIndexStageValue(value, distance, runnerIndex){
+function updateRunnerIndexStageValue(value, distance, runnerIndex) {
     let listOfIndexes = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
-    if(listOfIndexes[runnerIndex] != " "){
+    if (listOfIndexes[runnerIndex] != " ") {
         updateDistance(runnerIndex, distance, false);
     }
     listOfIndexes[runnerIndex] = value;
-    localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
+    localStorage.setItem("runnerIndexStageValues", JSON.stringify({ stageValues: listOfIndexes }));
 }
 /* ------------------ */
 
 
 /* GETTERS */
-function getLocalRunner(index, key){
+function getLocalRunner(index, key) {
     let listOfRunners = localRunnersDataToList();
     switch (key) {
         case "fullName":
@@ -158,18 +162,18 @@ function setLocalStorage() {
         }
         `);
     }
-    if(!localStorage.getItem("distances")){
+    if (!localStorage.getItem("distances")) {
         localStorage.setItem("distances", "0,0,0,0,0,0,0,0,0,0");
     }
 }
 
-function setRunnerIndexStageValues(length){
-    if(!localStorage.getItem("runnerIndexStageValues")){
+function setRunnerIndexStageValues(length) {
+    if (!localStorage.getItem("runnerIndexStageValues")) {
         let listOfIndexes = [];
-        for(let i = 0; i < length; i++){
+        for (let i = 0; i < length; i++) {
             listOfIndexes.push(" ");
         }
-        localStorage.setItem("runnerIndexStageValues", JSON.stringify({stageValues: listOfIndexes}));
+        localStorage.setItem("runnerIndexStageValues", JSON.stringify({ stageValues: listOfIndexes }));
     }
 }
 
@@ -194,10 +198,10 @@ function setLocalRunner(index, key, value) {
 
 
 /* FUNCTIONS TO CONVERT */
-function asTime(runnerIndex, distance){
+function asTime(runnerIndex, distance) {
     let speed = localRunnersDataToList()[runnerIndex].speed;
     let inSec = distance * parseFloat(speed.substring(0, 2)) * 60 + distance * parseFloat(speed.substring(2, 4));
-    return (Math.floor(inSec / 60)).toString() + ':' + (inSec % 60 < 10 ? '0' + (inSec % 60).toString() : (inSec % 60).toString());
+    return ((Math.floor(inSec / 60)) < 10 ? '0' + (Math.floor(inSec / 60)).toString() : (Math.floor(inSec / 60)).toString()) + ':' + (inSec % 60 < 10 ? '0' + (inSec % 60).toString() : (inSec % 60).toString());
 }
 
 function localRunnersDataToList() {
@@ -205,12 +209,12 @@ function localRunnersDataToList() {
 }
 
 function listToLocalRunnersData(runnersData) {
-    localStorage.setItem("runnersDataAsString", JSON.stringify({runners:runnersData}));
+    localStorage.setItem("runnersDataAsString", JSON.stringify({ runners: runnersData }));
     console.log(localStorage.getItem("runnersDataAsString") + " stored");
     return localStorage.getItem("runnersDataAsString");
 }
 
-function toSpeed(fourDigits){
+function toSpeed(fourDigits) {
     return fourDigits.slice(0, 2) + ":" + fourDigits.slice(2, 4) + " / km";
 }
 /* ------------------ */
