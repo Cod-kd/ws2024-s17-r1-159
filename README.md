@@ -18,7 +18,7 @@
 * 1920x1080
 
 ## Calculator
-In calculator.js there is a bug witch can be trace back to line 78-87, 77, 62. If you have a solution please feel free to send me an e-mail to: muranyi.daniel0@gmail.com
+In calculator.js there is a bug witch can be trace back to line 83-92, 72, 67. If you have a solution please feel free to send me an e-mail to: muranyi.daniel0@gmail.com
 _While the problem is not solved please note that the calculator is works in privileged mode._
 
 ###### The Team Member Table
