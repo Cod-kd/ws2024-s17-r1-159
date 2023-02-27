@@ -207,7 +207,7 @@ function setLocalRunner(index, key, value) {
 function asTime(runnerIndex, distance) {
     let speed = localRunnersDataToList()[runnerIndex].speed;
     let inSec = distance * parseFloat(speed.substring(0, 2)) * 60 + distance * parseFloat(speed.substring(2, 4));
-    return ((Math.floor(inSec / 60)) < 10 ? '0' + (Math.floor(inSec / 60)).toString() : (Math.floor(inSec / 60)).toString()) + ':' + (inSec % 60 < 10 ? '0' + (inSec % 60).toString() : (inSec % 60).toString());
+    return ((Math.floor(inSec / 60)) < 10 ? '0' + (Math.floor(inSec / 60)).toString() : (Math.floor(inSec / 60)).toString()) + ':' + (inSec % 60 < 10 ? '0' + (inSec % 60).round(0).toString() : (inSec % 60).round(0).toString());
 }
 
 function localRunnersDataToList() {
