@@ -1,6 +1,6 @@
-#ULTRABALATON Prototype
+# ULTRABALATON Prototype
 
-##Landing page
+## Landing page
 
 
-##Calculator
+## Calculator
