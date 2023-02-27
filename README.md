@@ -1,6 +1,6 @@
-*Page:*
-*ID: 159*
-*Name: Dániel Murányi*
+* **Page:**
+* **ID: 159**
+* **Name: Dániel Murányi**
 
 # ULTRABALATON Prototype
 
