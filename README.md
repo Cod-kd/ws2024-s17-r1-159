@@ -16,8 +16,8 @@ The prototype version of the project contains only the most important features.
 ## Calculator
 
 ###### The Team Member Table
-* The name and speed are modifiable and the changes will store in the **_LocalStorage_**
-* You can add speed like "1234" and when you reload the page it will be automatically formatted
+* The name and speed are modifiable and the changes will store in the **_LocalStorage_**.
+* You can add speed like "1234" and when you reload the page it will be automatically formatted.
 
 
 ###### The Stage Assignment Table
