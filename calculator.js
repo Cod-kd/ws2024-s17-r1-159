@@ -1,5 +1,5 @@
 /*
-HIBA: 208, 77
+HIBA: 77
 */
 
 /* RUNS WHEN THE PAGE LOADED */
