@@ -9,7 +9,7 @@
 ## Landing page
 
 ###### Browser compatibility:
-* Chrome
+* Chrome (netify blocks .svg files in Chrome)
 * Firefox
 
 ###### Supported viewports:
