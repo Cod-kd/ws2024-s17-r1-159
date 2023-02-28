@@ -9,7 +9,7 @@
 ## Landing page
 
 ###### Browser compatibility:
-* Chrome
+* Chrome (netify blocks .svg files in Chrome)
 * Firefox
 
 ###### Supported viewports:
@@ -41,6 +41,7 @@ _While the problem is not solved please note that the calculator is works in pri
 ###### Complete the table step by step
 1. Write in the first- the and lastname parameters!
 2. Fill the speed with four digits for example: 1103 (That is means the runner need 11:03 [minute:second] to run a kilometer)!
-3. Select a runner from the stage assignment table from the desired row of the "Runners" column using the drop-down list, or start typing the name of the runner whose data you have already entered correctly (in Chrome by click on the dark triangle, in Firefox by double-click in the input field)!
+3. Reload the page to update "Runners" drop-down!
+4. Select a runner from the stage assignment table from the desired row of the "Runners" column using the drop-down list, or start typing the name of the runner whose data you have already entered correctly (in Chrome by click on the dark triangle, in Firefox by double-click in the input field)!
 
 Calculator: https://ws2024-s17-r1-159.netlify.app/calculator
