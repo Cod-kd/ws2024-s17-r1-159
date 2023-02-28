@@ -1,7 +1,3 @@
-/*
-There is a bug witch can be tarce back to line 83-92, 72, 67. If you have a solution please feel free to send me an e-mail to: muranyi.daniel0@gmail.com
-*/
-
 /* RUNS WHEN THE PAGE LOADED */
 window.addEventListener("DOMContentLoaded", () => {
     setLocalStorage(); // if it is not exists yet
@@ -9,9 +5,9 @@ window.addEventListener("DOMContentLoaded", () => {
     loadStageData(""); // get and load everyting from the URL
 
     // add round function to Number is prototype
-    Number.prototype.round = function(places) {
-        return +(Math.round(this + "e+" + places)  + "e-" + places);
-      }
+    Number.prototype.round = function (places) {
+        return +(Math.round(this + "e+" + places) + "e-" + places);
+    }
 });
 /* ------------------ */
 
@@ -64,7 +60,7 @@ function fillStageTableWithDatas(dataList) {
     runnerList.sort((a, b) => (a[1] > b[1]) ? 1 : (a[1] < b[1]) ? -1 : 0);
     console.log(runnerList);
     // fill the table with data
-    let j = 0; // It works local, but cannot get it in the eventlistener
+    let j = 0;
     for (let datas of dataList) {
         let row = table.insertRow();
         row.innerHTML = `
@@ -78,15 +74,17 @@ function fillStageTableWithDatas(dataList) {
                         `;
         row.classList.add("stageAssignmentTr");
 
+        // variables for the eventlistener
+        let index = j;
+        let distance = datas.distance;
         let input = document.getElementsByClassName("chooseRunnerInput")[j];
         input.addEventListener("input", () => {
             // update if the data is valid //
             for (let r of runnerList) {
                 if (input.value == r[1]) {
-                    console.error("Variable called \"j\" is: " + j + " in calculator.js line 86"); // j = 54 (előző ciklus utolsó értéke) az eventlisteneren belül
-                    updateRunnerIndexStageValue(0, datas.distance, r[0] - 1); // value parameter is need to be variable j
-                    updateDistance(r[0] - 1, datas.distance, true);
-                    document.getElementById(`tr${0}_time`).innerHTML = asTime(r[0] - 1, parseFloat(datas.distance)); // tr${0}_time need to replace with tr${j}_time
+                    updateRunnerIndexStageValue(index, distance, r[0] - 1);
+                    updateDistance(r[0] - 1, distance, true);
+                    document.getElementById(`tr${index}_time`).innerHTML = asTime(r[0] - 1, parseFloat(distance));
                 }
             }
         });
@@ -117,12 +115,12 @@ function updateDistance(index, distance, add) {
     localStorage.setItem("distances", distances);
 }
 
-function updateRunnerIndexStageValue(value, distance, runnerIndex) {
+function updateRunnerIndexStageValue(neededIndex, distance, runnerIndex) {
     let listOfIndexes = JSON.parse(localStorage.getItem("runnerIndexStageValues")).stageValues;
-    if (listOfIndexes[runnerIndex] != " ") {
-        updateDistance(runnerIndex, distance, false);
+    if (listOfIndexes[neededIndex] != " ") {
+        updateDistance(listOfIndexes[neededIndex], distance, false);
     }
-    listOfIndexes[runnerIndex] = value;
+    listOfIndexes[neededIndex] = runnerIndex;
     localStorage.setItem("runnerIndexStageValues", JSON.stringify({ stageValues: listOfIndexes }));
 }
 /* ------------------ */
