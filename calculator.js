@@ -40,6 +40,9 @@ function fillTeamMemberTableWithDatas() {
                 if (parseInt(speed.value[2]) < 6) {
                     setLocalRunner(c, "speed", speed.value);
                     speed.value = toSpeed(speed.value);
+                    loadStageData(""); 
+                    /* reload stage assignment table if the speed typed too (the browser opimize this) it is the
+                    best option now */
                 }
             }
         });
@@ -60,6 +63,17 @@ function fillStageTableWithDatas(dataList) {
     runnerList.sort((a, b) => (a[1] > b[1]) ? 1 : (a[1] < b[1]) ? -1 : 0);
     console.log(runnerList);
     // fill the table with data
+    table.innerHTML = `
+    <tr class="stageAssignmentTr">
+        <th>Line number</th>
+        <th>Distance</th>
+        <th>Starting point</th>
+        <th>Arriving point</th>
+        <th>Name</th>
+        <th>Runner</th>
+        <th>Time</th>
+    </tr>
+    `;
     let j = 0;
     for (let datas of dataList) {
         let row = table.insertRow();
@@ -152,7 +166,7 @@ function setLocalStorage() {
         {
         "runners":
             [
-                {"fName": "Jakab", "lName": "András", "speed": "1020"},
+                {"fName": "", "lName": "", "speed": ""},
                 {"fName": "", "lName": "", "speed": ""},
                 {"fName": "", "lName": "", "speed": ""},
                 {"fName": "", "lName": "", "speed": ""},
@@ -243,7 +257,6 @@ function getRouteData(url) {
 
 function loadStageData(stageID) {
     getRouteData("https://ub2023-backend.onrender.com/api/v1/stages/" + stageID).then(response => {
-        console.log(response);
         fillStageTableWithDatas(response);
     }).catch(err => {
         console.log(err);
